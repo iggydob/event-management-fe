@@ -12,7 +12,7 @@ import {NgForm} from "@angular/forms";
 export class AppComponent implements OnInit {
   title = 'event-management-fe';
   public customers: Customer[] = [];
-  public editCustomer?: Customer;
+  public editCustomer: Customer;
   public deleteCustomer?: Customer;
 
   constructor(private customerService: CustomerService) {
@@ -90,31 +90,23 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onOpenModal(customer: Customer | null, mode: string): void {
+  public onOpenModal(customer: Customer, mode: string): void {
     const container = document.getElementById('main-container');
-    if (!container) return;
-
     const button = document.createElement('button');
     button.type = 'button';
     button.style.display = 'none';
     button.setAttribute('data-toggle', 'modal');
-
-    switch (mode) {
-      case 'add':
-        button.setAttribute('data-target', '#addEmployeeModal');
-        break;
-      case 'edit':
-        if (customer) this.editCustomer = customer;
-        button.setAttribute('data-target', '#updateEmployeeModal');
-        break;
-      case 'delete':
-        if (customer) this.deleteCustomer = customer;
-        button.setAttribute('data-target', '#deleteEmployeeModal');
-        break;
-      default:
-        return;
+    if (mode === 'add') {
+      button.setAttribute('data-target', '#addEmployeeModal');
     }
-
+    if (mode === 'edit') {
+      this.editCustomer = customer;
+      button.setAttribute('data-target', '#updateEmployeeModal');
+    }
+    if (mode === 'delete') {
+      this.deleteCustomer = customer;
+      button.setAttribute('data-target', '#deleteEmployeeModal');
+    }
     container.appendChild(button);
     button.click();
   }
